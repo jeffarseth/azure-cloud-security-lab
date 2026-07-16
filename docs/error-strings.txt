@@ -1,0 +1,17 @@
+Subscription transfer (portal, rrcca)-
+Your current settings do not allow you to transfer this subscription. Contact your Global Administrator for access.
+
+Guest invite (entra, rrcca) -
+User invitation failed - Your organization does not allow collaboration with the domain of the user you're inviting. Contact your admin to allow collaboration with this domain.
+
+App registration (portal, rrcca) -
+App registrations blade fails to load with HTTP 401 in rrcca.
+
+`{"sessionId":"[redacted]","subscriptionId":"","resourceGroup":"","errorCode":"401","resourceName":"","details":"Error loading your content"}`
+
+Region policy (portal, rrca) -
+Resource 'vnet-azseclab-cc' was disallowed by Azure: This policy maintains a set of best available regions where your subscription can deploy resources. The objective of this policy is to ensure that your subscription has full access to Azure services with optimal performance. Should you need additional or different regions, contact support.
+
+`RequestDisallowedByAzure`
+
+`listOfAllowedLocations` = `["mexicocentral","centralus","eastus2","southcentralus","northcentralus"]`

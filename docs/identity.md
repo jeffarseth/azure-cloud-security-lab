@@ -1,3 +1,5 @@
+# Identity
+
 ## 2026-07-14 - Tenant ownership
 
 ### Decision 1: Create a separate Entra tenant for the lab

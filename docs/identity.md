@@ -2,7 +2,7 @@
 
 ## 2026-07-14 - Tenant ownership
 
-### Create a separate Entra tenant for the lab
+### Decision: Create a separate Entra tenant for the lab
 
 **Context.** Azure for Students placed my subscription in Red River College's
 tenant (rrcca.onmicrosoft.com), where my @rrc.ca account is homed.
@@ -28,7 +28,7 @@ controls its lifecycle, so my lab's sole GA was revocable by my college.
 Mitigated by creating labadmin@rrcazlab2026.onmicrosoft.com, cloud-only,
 with its own password and MFA, verified by signing in before relying on it.
 
-### Failed subscription transfer
+### Decision: Failed subscription transfer
 
 **Context.** My Azure for Students subscription is associated with RRC's tenant (rrcca.onmicrosoft.com), because my @rrc.ca identity is homed there. I attempted to change its directory association to my own tenant (rrcazlab2026.onmicrosoft.com) so that identities I control could hold RBAC on it.
 

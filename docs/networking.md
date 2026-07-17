@@ -2,7 +2,7 @@
 
 ## 2026-07-16 - Region selection
 
-### Move everything to North Central US
+### Decision: Move everything to North Central US
 
 **Context.** I needed a VM. Network was at Canada Central.
 

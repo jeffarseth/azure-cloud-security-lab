@@ -15,3 +15,19 @@
 **Tradeoff.** Data sits in the US, not Canada. I had no choice since Microsoft only allowed me five regions that was either US or Mexico. Canada Central, Central US, and East US 2 resource groups are deleted. Bicep would have made this one variable instead of three rebuilds but i have no idea what bicep is at the moment since that's a task for the future.
 
 **Next.** I am going to use the cloud shell as much as possible and run `az vm list-skus` before choosing a region. The most constrained resource picks the region, everything else follows.
+
+## 2026-07-17 - Traffic controls
+
+### Decision: Keep default-deny inbound, leave outbound open
+
+**Context.** VM is in snet-private with no public IP. Both subnets have NSGs attached with only Azure's default rules.
+
+**Finding.** Nothing needs inbound access. `run-command` covers administration, and `snet-public` is empty.
+
+**Decision.** No inbound rules on either subnet. Outbound left unrestricted.
+
+**Rationale.** A jump box is a small VM with a public IP whose only job is to give me entry to the main VM, but that another VM costs me another ~$7/month plus a public IP, so it would eat unnecessary credit for something `run-command` already does for free. The VM also needs to reach the internet outbound so that `apt update && apt upgrade` can reach Ubuntu's repos. Filtering egress would need Azure Firewall that is priced around $900/month, though this would help to allow the repos and deny the rest. I have accepted the risk of leaving outbound open. I considered using the built-in UFW, but it is host-based instead of being network-based, it will filter packets inside of the machine instead of it filtering before traffic reaches the machine. The UFW can be disabled, flushed, or rewritten by root. NSGs are enforced by Azure, outside the VM, so root on the machine doesn't reach them.
+
+**Tradeoff.** Accepting an open egress from the VM increases the risk that, if the VM is compromised, malware could communicate with external infrastructure.
+
+**Next.** This decision needs to be revisited when the lab holds real data. The storage account planned for the next session is the trigger.

@@ -31,3 +31,17 @@
 **Tradeoff.** Accepting an open egress from the VM increases the risk that, if the VM is compromised, malware could communicate with external infrastructure.
 
 **Next.** This decision needs to be revisited when the lab holds real data. The storage account planned for the next session is the trigger.
+
+## 2026-07-20 - Storage redundancy
+
+### Decision: LRS chosen for redundancy matched to data value
+
+**Context.** Storage account needs a redundancy tier which is either LRS (Locally Redundant Storage) or GRS (Geo-Redundant Storage).
+
+**Decision.** LRS.
+
+**Rationale.** Data is regenerable mock data. GRS costs more to survive a regional outage, which buys nothing for data that can be recreated with a script.
+
+**Tradeoff.** No protection against a full region loss. Risk is accepted because the data is worthless if lost.
+
+**Next.** Revisit if the account ever holds something not trivially regenerable.

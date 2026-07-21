@@ -59,10 +59,10 @@ root
 
 ### Finding: Logging is itself an attack surface (log flooding)
 
-**Observed.** Setup blob diagnostics such as read, write, delete to log analytics.
+**Context.** Setup blob diagnostics such as read, write, delete to log analytics.
 
 **Concern.** Logs are an attack surface to which an attacker can flood.
 
-**Mechanism.** I am on pay-as-you-go past 5 GB/month. An attacker can generate millions of operations that can either cost me more money or cause logs to stop being collected if there is a cap is hit (daily-cap setting). An attacker can also bury the real event by these millions of junk reads.
+**Mechanism.** I am on pay-as-you-go past 5 GB/month. An attacker can generate millions of operations that can either cost me more money or a daily cap set to control cost becomes a blind spot, since collection stops once it's hit. An attacker can also bury the real event by these millions of junk reads.
 
-**Mitigations.** Rate-based alerting can detect abnormal threshold. Make the log storage immutable for a set retention period so that forensics can still be achievable, only slower. Separate the logging plane from the workload plane via Log Analytics so that access control becomes tighter as the attacker would only have access to the data plane.
+**Mitigations.** Rate-based alerting can detect abnormal threshold, alert when the cap is hit. Make the log storage immutable for a set retention period so that forensics can still be achievable, only slower. Separate the logging plane from the workload plane via Log Analytics so that access control becomes tighter; tampering with logs requires a separate compromise of the workspace, with its own RBAC.

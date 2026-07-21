@@ -46,3 +46,23 @@ root
 **Mechanism.** Each overwrite or delete keeps prior version rather than destroying it.
 
 **Mitigates.** Accidental deletion, and ransomware that encrypts blobs in place (can roll back to a clean version).
+
+## 2026-07-21 - Management plane vs data plane
+
+### Finding: Owner role cannot read or write blob data
+
+**Observed.** I have Owner. I tried to run `az storage blob upload --auth-mode login`, but got "You do not have the required permissions."
+
+**Mechanism.** Azure splits access into two planes. The management plane covers operations on the account itself: create, configure, delete, rotate keys. The data plane covers the bytes inside: read, write, list blobs. Owner grants the management plane only. Reading or writing blob data requires a separate Storage Blob Data role. I assigned myself as Storage Blob Data Contributor in order to have the ability to upload files to blobs.
+
+**Implication.** Azure separated the management plane and the data plane in order to apply least-privilege for who can control accounts and who can control data.
+
+### Finding: Logging is itself an attack surface (log flooding)
+
+**Observed.** Setup blob diagnostics such as read, write, delete to log analytics.
+
+**Concern.** Logs are an attack surface to which an attacker can flood.
+
+**Mechanism.** I am on pay-as-you-go past 5 GB/month. An attacker can generate millions of operations that can either cost me more money or cause logs to stop being collected if there is a cap is hit (daily-cap setting). An attacker can also bury the real event by these millions of junk reads.
+
+**Mitigations.** Rate-based alerting can detect abnormal threshold. Make the log storage immutable for a set retention period so that forensics can still be achievable, only slower. Separate the logging plane from the workload plane via Log Analytics so that access control becomes tighter as the attacker would only have access to the data plane.
